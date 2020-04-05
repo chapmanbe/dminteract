@@ -1,5 +1,7 @@
 import os
 import sqlite3 as sq
+from version import __version__
+
 
 _score_dir = os.path.join(os.path.expanduser("~"), ".dminteract")
 if not os.path.exists(_score_dir):
@@ -17,5 +19,3 @@ if not os.path.exists(_score_db):
                                time DATE)""")
     _sconn.commit()
     _sconn.close()
-def hello():
-    print("Hello, class")

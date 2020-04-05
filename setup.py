@@ -6,11 +6,10 @@ version = {}
 here = path.abspath(path.dirname(__file__))
 tmp = ''
 
-with open(path.join("dminteract","version.py")) as f0:
-    exec(f0.read(), version)
-    version["__version__"] = tmp
-print(version)
-version["__version__"] = "0.0.1.1"
+with open("dminteract/version.py") as fp:
+    exec(fp.read(), version)
+
+print(version["__version__"])
 # Get the long description from the relevant file
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
