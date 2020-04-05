@@ -6,6 +6,22 @@ import os
 import pydicom
 from .. import eval as _e
 
+def get_tags(mod):
+    import sqlite3 as sq
+    conn = sq.connect(os.path.join(_e.__DBDIR__,mod+".sqlite"))
+    c = conn.cursor()
+    c.execute("""SELECT tags FROM dmquestions""")
+    tags = [t[0] for t in c.fetchall()]
+    return tags
+
+_tags = get_tags("m4")
+_m4c_groups = ['qbank1', 'qbank2', 'qbank3', 'qbank4']
+_m4c_evals = {key:[t for t in _tags if key in t] for key in _m4c_groups}
+
+__scores = {key:{} for key in _m4c_evals.keys()}
+
+del _tags
+
 def get_img_metadata(fname):
     parser = createParser(fname)
     with parser:
@@ -62,8 +78,5 @@ def view_dicom_data_rev(img, item):
         print(error)
         print()
 
-nb1_questions = {tag:_e.create_question_widget("m4c", tag)
-     for tag in _e._m4c_evals["basic_image_standards"]}
-
-nb2_questions = {tag:_e.create_question_widget("m4c", tag)
-     for tag in _e._m4c_evals["dicom_intro"]}
+question_banks = {key:{tag:_e.create_question_widget("m4", tag) for tag in _m4c_evals[key]}
+                     for key in _m4c_evals.keys() }
