@@ -1,6 +1,6 @@
 import os
 import sqlite3 as sq
-from version import __version__
+from .version import __version__
 
 
 _score_dir = os.path.join(os.path.expanduser("~"), ".dminteract")
